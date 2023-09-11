@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href='/Static/style.css' />
+    <title>KPI DashBoard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="main">
+        <div class="header-wrapper">
+          <div class="upbar">
+            <nav>
+              <ul>
+                  <li class="active"><a href="#">DashBoard</a>
+                  </li>
+                  <li><a href="/EDA">EDA</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="header-title">
+              <h1>KPI Dashboard</h1>
+          </div>
+        </div>
+        <div class="container-wrapper">
+            <div class="container1">
+                <h2>Number of properties sold per year</h2>
+                <canvas id="barChart1"></canvas>
+                <script>
+                    var ctx = document.getElementById('barChart1').getContext('2d');
+                    var barChart1 = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: {{ chart1_labels | safe }},
+                            datasets: [
+                                {
+                                    label: 'QTY Sold',
+                                    data: {{ chart1_values | safe }},
+                                    backgroundColor: 'rgb(75, 192, 192)',
+                                    borderColor: 'rgb(75, 192, 192)',
+                                    borderWidth: 1,
+                                },
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+            <div class="container2">
+                <h2>Total sale price per year</h2>
+                <canvas id="barChart2"></canvas>
+                <script>
+                    var ctx = document.getElementById('barChart2').getContext('2d');
+                    var barChart2 = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: {{ chart2_labels | safe }},
+                            datasets: [
+                                {
+                                    label: 'Total SalePrice',
+                                    data: {{ chart2_values | safe }},
+                                    backgroundColor: 'rgb(255, 165, 0)',
+                                    borderColor: 'rgb(255, 165, 0)',
+                                    borderWidth: 1,
+                                },
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="container-wrapper2">
+          <div class="container3">
+              <h3>Overall Condition of Properties</h3>
+              <canvas id="pieChart"></canvas>
+              <script>
+                  var ctx = document.getElementById('pieChart').getContext('2d');
+                  var pieChart = new Chart(ctx, {
+                      type: 'pie',
+                      data: {
+                          labels: {{ chart3_labels | safe }},
+                          datasets: [
+                              {
+                                  data: {{ chart3_values | safe }},
+                                  backgroundColor: [
+                                      'rgb(255, 99, 132)',
+                                      'rgb(54, 162, 235)',
+                                      'rgb(255, 205, 86)',
+                                      'rgb(75, 192, 192)',
+                                      'rgb(153, 102, 255)',
+                                      'rgb(255, 159, 64)',
+                                      'rgb(255, 0, 0)',
+                                      'rgb(0, 255, 0)',
+                                      'rgb(0, 0, 255)'
+                                  ],
+                              },
+                          ],
+                      },
+                      options: {
+                          tooltips: {
+                              callbacks: {
+                                  label: function(tooltipItem, data) {
+                                      var label = data.labels[tooltipItem.index];
+                                      var value = data.datasets[0].data[tooltipItem.index];
+                                      return label + ': ' + value + '%';
+                                  }
+                              }
+                          }
+                      }
+                  });
+              </script>
+          </div>
+          <div class="container4">
+            <h3>Average SalePrice by Overall Condition</h3>
+            <canvas id="lineChart"></canvas>
+            <script>
+                var ctx = document.getElementById('lineChart').getContext('2d');
+                var lineChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: {{ chart4_labels | safe }},
+                        datasets: [
+                            {
+                                label: 'Average SalePrice',
+                                data: {{ chart4_values | safe }},
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgb(75, 192, 192)',
+                                borderWidth: 1,
+                            },
+                        ],
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: false, // Sesuaikan dengan kebutuhan Anda
+                            },
+                        },
+                    },
+                });
+            </script>
+          </div> 
+        </div>
+      </div>  
+    </div>
+</body>
+</html>
